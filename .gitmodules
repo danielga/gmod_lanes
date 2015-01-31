@@ -1,0 +1,3 @@
+[submodule "gmod-module-base"]
+	path = gmod-module-base
+	url = https://bitbucket.org/danielga/gmod-module-base.git
