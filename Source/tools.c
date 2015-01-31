@@ -168,7 +168,7 @@ void luaG_copy_one_time_settings( struct s_Universe* U, lua_State* L, lua_State*
 	lua_getfield( L, LUA_REGISTRYINDEX, CONFIG_REGKEY);
 	if( luaG_inter_move( U, L, L2, 1, eLM_LaneBody) < 0) // error?
 	{
-		(void) luaL_error( L, "failed to copy settings when loading lanes.core");
+		(void) luaL_error( L, "failed to copy settings when loading lanes_core");
 	}
 	lua_setfield( L2, LUA_REGISTRYINDEX, CONFIG_REGKEY);
 }
@@ -178,8 +178,8 @@ void luaG_copy_one_time_settings( struct s_Universe* U, lua_State* L, lua_State*
 
 static int require_lanes_core( lua_State* L)
 {
-	// leaves a copy of 'lanes.core' module table on the stack
-	luaL_requiref( L, "lanes.core", luaopen_lanes_core, 0);
+	// leaves a copy of 'lanes_core' module table on the stack
+	luaL_requiref( L, "lanes_core", luaopen_lanes_core, 0);
 	return 1;
 }
 
@@ -200,7 +200,7 @@ static const luaL_Reg libs[] =
 	{ LUA_COLIBNAME, NULL},              // Lua 5.1: part of base package
 #endif // LUA_VERSION_NUM
 	{ LUA_DBLIBNAME, luaopen_debug},
-	{ "lanes.core", require_lanes_core}, // So that we can open it like any base library (possible since we have access to the init function)
+	{ "lanes_core", require_lanes_core}, // So that we can open it like any base library (possible since we have access to the init function)
 	//
 	{ "base", NULL},                     // ignore "base" (already acquired it)
 	{ NULL, NULL }
@@ -217,7 +217,7 @@ static void open1lib( struct s_Universe* U, lua_State* L, char const* name_, siz
 			name_ = libs[i].name; // note that the provided name_ doesn't necessarily ends with '\0', hence len_
 			if( libfunc != NULL)
 			{
-				bool_t const isLanesCore = (libfunc == require_lanes_core) ? TRUE : FALSE; // don't want to create a global for "lanes.core"
+				bool_t const isLanesCore = (libfunc == require_lanes_core) ? TRUE : FALSE; // don't want to create a global for "lanes_core"
 				DEBUGSPEW_CODE( fprintf( stderr, INDENT_BEGIN "opening %.*s library\n" INDENT_END, len_, name_));
 				STACK_CHECK( L);
 				if( isLanesCore == TRUE)
@@ -227,7 +227,7 @@ static void open1lib( struct s_Universe* U, lua_State* L, char const* name_, siz
 				}
 				// open the library as if through require(), and create a global as well if necessary (the library table is left on the stack)
 				luaL_requiref( L, name_, libfunc, !isLanesCore);
-				// lanes.core doesn't declare a global, so scan it here and now
+				// lanes_core doesn't declare a global, so scan it here and now
 				if( isLanesCore == TRUE)
 				{
 					populate_func_lookup_table( L, -1, name_);
@@ -571,7 +571,7 @@ void call_on_state_create( struct s_Universe* U, lua_State* L, lua_State* from_,
 			// C function: recreate a closure in the new state, bypassing the lookup scheme
 			lua_pushcfunction( L, U->on_state_create_func);
 		}
-		else // Lua function located in the config table, copied when we opened "lanes.core"
+		else // Lua function located in the config table, copied when we opened "lanes_core"
 		{
 			if( mode_ != eLM_LaneBody)
 			{
@@ -655,8 +655,8 @@ lua_State* luaG_newstate( struct s_Universe* U, lua_State* from_, char const* li
 		{
 			DEBUGSPEW_CODE( fprintf( stderr, INDENT_BEGIN "opening ALL standard libraries\n" INDENT_END));
 			luaL_openlibs( L);
-			// don't forget lanes.core for regular lane states
-			open1lib( U, L, "lanes.core", 10, from_);
+			// don't forget lanes_core for regular lane states
+			open1lib( U, L, "lanes_core", 10, from_);
 			libs_ = NULL; // done with libs
 		}
 		else
@@ -682,7 +682,7 @@ lua_State* luaG_newstate( struct s_Universe* U, lua_State* from_, char const* li
 		unsigned int len = 0;
 		for( p = libs_; *p; p += len)
 		{
-			// skip delimiters ('.' can be part of name for "lanes.core")
+			// skip delimiters ('.' can be part of name for "lanes_core")
 			while( *p && !isalnum( *p) && *p != '.')
 				++ p;
 			// skip name

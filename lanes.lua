@@ -43,7 +43,7 @@ lanes = {}
 local lanes = lanes
 
 require("lanes_core")
-local core = lanes.__core
+local core = lanes.core
 
 -- this function is available in the public interface until it is called, after which it disappears
 lanes.configure = function( settings_)
@@ -221,7 +221,7 @@ local valid_libs =
 	--
 	["base"] = true,
 	["coroutine"] = true, -- part of "base" in Lua 5.1
-	["lanes.core"] = true
+	["lanes_core"] = true
 }
 
 local raise_option_error = function( name_, tv_, v_)

@@ -2260,9 +2260,9 @@ LUAG_FUNC( lane_new)
 				}
 				else
 				{
-					// if is it "lanes" or "lanes.core", make sure we have copied the initial settings over
-					// which might not be the case if the libs list didn't include lanes.core or "*"
-					if( strncmp( name, "lanes.core", len) == 0) // this works both both "lanes" and "lanes.core" because of len
+					// if is it "lanes" or "lanes_core", make sure we have copied the initial settings over
+					// which might not be the case if the libs list didn't include lanes_core or "*"
+					if( strncmp( name, "lanes_core", len) == 0) // this works both both "lanes" and "lanes_core" because of len
 					{
 						luaG_copy_one_time_settings( U, L, L2);
 					}
@@ -3192,7 +3192,7 @@ LUAG_FUNC( configure)
 
 	// register all native functions found in that module in the transferable functions database
 	// we process it before _G because we don't want to find the module when scanning _G (this would generate longer names)
-	// for example in package.loaded["lanes.core"].*
+	// for example in package.loaded["lanes_core"].*
 	populate_func_lookup_table( L, -1, name);
 
 	// record all existing C/JIT-fast functions
@@ -3266,7 +3266,7 @@ static void EnableCrashingOnCrashes( void)
 }
 #endif // PLATFORM_WIN32
 
-int LANES_API luaopen_lanes_core( lua_State* L)
+int luaopen_lanes_core( lua_State* L)
 {
 #if defined PLATFORM_WIN32 && !defined NDEBUG
 	EnableCrashingOnCrashes();
@@ -3278,11 +3278,11 @@ int LANES_API luaopen_lanes_core( lua_State* L)
 	// Create main module interface table
 	// we only have 1 closure, which must be called to configure Lanes
 	lua_newtable( L);                                   // M
-	lua_pushvalue( L, 1);                               // M "lanes.core"
-	lua_pushvalue( L, -2);                              // M "lanes.core" M
+	lua_pushvalue( L, 1);                               // M "lanes_core"
+	lua_pushvalue( L, -2);                              // M "lanes_core" M
 	lua_pushcclosure( L, LG_configure, 2);              // M LG_configure()
 	lua_getfield( L, LUA_REGISTRYINDEX, CONFIG_REGKEY); // M LG_configure() settings
-	if( !lua_isnil( L, -1)) // this is not the first require "lanes.core": call configure() immediately
+	if( !lua_isnil( L, -1)) // this is not the first require "lanes_core": call configure() immediately
 	{
 		lua_pushvalue( L, -1);                            // M LG_configure() settings settings
 		lua_setfield( L, -4, "settings");                 // M LG_configure() settings
@@ -3297,27 +3297,4 @@ int LANES_API luaopen_lanes_core( lua_State* L)
 
 	STACK_END( L, 1);
 	return 1;
-}
-
-static int default_luaopen_lanes( lua_State* L)
-{
-	int rc = luaL_loadfile( L, "lanes.lua") || lua_pcall( L, 0, 1, 0);
-	if( rc != LUA_OK)
-	{
-		return luaL_error( L, "failed to initialize embedded Lanes");
-	}
-	return 1;
-}
-
-// call this instead of luaopen_lanes_core() when embedding Lua and Lanes in a custom application
-void LANES_API luaopen_lanes_embedded( lua_State* L, lua_CFunction _luaopen_lanes)
-{
-	STACK_CHECK( L);
-	// pre-require lanes.core so that when lanes.lua calls require "lanes.core" it finds it is already loaded
-	luaL_requiref( L, "lanes.core", luaopen_lanes_core, 0);                                       // ... lanes.core
-	lua_pop( L, 1);                                                                               // ...
-	STACK_MID( L, 0);
-	// call user-provided function that runs the chunk "lanes.lua" from wherever they stored it
-	luaL_requiref( L, "lanes", _luaopen_lanes ? _luaopen_lanes : default_luaopen_lanes, 0);       // ... lanes
-	STACK_END( L, 1);
 }
