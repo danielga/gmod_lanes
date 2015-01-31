@@ -1,12 +1,16 @@
-gm_lanes_core
-=============
+gmod_lanes
+==========
 
-A module for Garry's Mod that adds threads.
+Modules for Garry's Mod that add threads.
 
 Info
 -------
 
+This project is composed by the main module (lanes.lua) and the internal module (gm_lanes_core).
+You can also refer to this project as gm_lanes or Lanes for Garry's Mod.
 lanes.lua goes into lua/includes/modules and gm[cl/sv]\_lanes_core\_[win32/linux/macos].dll goes into lua/bin.
+
+Credits to Lua Lanes developers. I've only adapted it to Garry's Mod.
 
 Mac was not tested at all (sorry but I'm cheap and lazy).
 

@@ -1,5 +1,5 @@
-gm_lanes_core
-A module for Garry's Mod that adds threads.
+gmod_lanes
+Modules for Garry's Mod that add threads.
 -----------------------------------------------------------------------
 Copyright (c) 2014, Daniel Almeida
 All rights reserved.
