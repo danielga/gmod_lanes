@@ -6,7 +6,7 @@ A module for Garry's Mod that adds threads.
 Info
 -------
 
-lanes.lua goes into lua/includes/modules and gm[cl/sv]_lanes_core_[win32/linux/macos].dll goes into lua/bin.
+lanes.lua goes into lua/includes/modules and gm[cl/sv]\_lanes_core\_[win32/linux/macos].dll goes into lua/bin.
 
 Mac was not tested at all (sorry but I'm cheap and lazy).
 
