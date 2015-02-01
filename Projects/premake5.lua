@@ -1,4 +1,3 @@
-SDK_FOLDER = "E:/Programming/source-sdk-2013/mp/src"
 GARRYSMOD_MODULE_BASE_FOLDER = "../gmod-module-base"
 SOURCE_FOLDER = "../Source"
 PROJECT_FOLDER = os.get() .. "/" .. _ACTION
@@ -51,7 +50,7 @@ solution("gm_lanes_core")
 
 		filter("system:linux")
 			defines({"POSIX", "GNUC", "_LINUX"})
-			linkoptions({GARRYSMOD_MODULE_BASE_FOLDER .. "/lua_shared_srv.so"})
+			linkoptions({"-Wl,-rpath,garrysmod/bin", "-l:lua_shared_srv.so"})
 			buildoptions({"-std=c++11"})
 			targetsuffix("_linux")
 
@@ -87,7 +86,7 @@ solution("gm_lanes_core")
 
 		filter("system:linux")
 			defines({"POSIX", "GNUC", "_LINUX"})
-			linkoptions({GARRYSMOD_MODULE_BASE_FOLDER .. "/lua_shared_srv.so"})
+			linkoptions({"-Wl,-rpath,garrysmod/bin", "-l:lua_shared.so"})
 			buildoptions({"-std=c++11"})
 			targetsuffix("_linux")
 
