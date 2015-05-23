@@ -13,7 +13,13 @@ include(gmcommon)
 
 CreateSolution("lanes")
 	CreateProject(SERVERSIDE)
+		includedirs({"../lanes/src"})
+		vpaths({["lanes"] = {"../lanes/src/*.h", "../lanes/src/*.c"}})
+		files({"../lanes/src/*.c", "../lanes/src/*.h"})
 		IncludeLuaShared()
 
 	CreateProject(CLIENTSIDE)
+		includedirs({"../lanes/src"})
+		vpaths({["lanes"] = {"../lanes/src/*.h", "../lanes/src/*.c"}})
+		files({"../lanes/src/*.c", "../lanes/src/*.h"})
 		IncludeLuaShared()

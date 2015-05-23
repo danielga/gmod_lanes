@@ -2,6 +2,11 @@
 extern "C"
 {
 	#include <lanes.h>
+
+	int luaopen_io( lua_State * )
+	{
+		return 0;
+	}
 }
 
 GMOD_MODULE_OPEN( )
