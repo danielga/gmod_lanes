@@ -11,7 +11,7 @@ end
 
 include(gmcommon)
 
-CreateSolution("lanes")
+CreateSolution("lanes_core")
 	CreateProject(SERVERSIDE)
 		includedirs({"../lanes/src"})
 		vpaths({["lanes"] = "../lanes/src/*.c"})
