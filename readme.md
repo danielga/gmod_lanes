@@ -16,4 +16,4 @@ This project requires [garrysmod_common][2], a framework to facilitate the creat
 
 
   [1]: http://cmr.github.io/lanes
-  [2]: https://bitbucket.org/danielga/garrysmod_common
+  [2]: https://github.com/danielga/garrysmod_common
