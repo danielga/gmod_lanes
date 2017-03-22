@@ -13,15 +13,24 @@ include(gmcommon)
 
 local LANES_DIRECTORY = "../lanes/src"
 
-CreateWorkspace({name = "lanes_core"})
+CreateWorkspace({name = "lanes.core"})
 	CreateProject({serverside = true})
 		includedirs(LANES_DIRECTORY)
-		vpaths({["lanes"] = LANES_DIRECTORY .. "/*.c"})
-		files(LANES_DIRECTORY .. "/*.c")
 		IncludeLuaShared()
+		links("lanes")
 
 	CreateProject({serverside = false})
 		includedirs(LANES_DIRECTORY)
-		vpaths({["lanes"] = "../lanes/src/*.c"})
-		files(LANES_DIRECTORY .. "/*.c")
+		IncludeLuaShared()
+		links("lanes")
+
+	project("lanes")
+		kind("StaticLib")
+		warnings("Off")
+		includedirs(LANES_DIRECTORY)
+		files({LANES_DIRECTORY .. "/*.c", LANES_DIRECTORY .. "/*.h"})
+		vpaths({
+			["Source files/*"] = LANES_DIRECTORY .. "/*.c",
+			["Header files/*"] = LANES_DIRECTORY .. "/*.h"
+		})
 		IncludeLuaShared()

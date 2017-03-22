@@ -1,4 +1,5 @@
 #include <GarrysMod/Lua/Interface.h>
+
 extern "C"
 {
 	#include <lanes.h>
@@ -12,9 +13,9 @@ extern "C"
 GMOD_MODULE_OPEN( )
 {
 	LUA->Pop( 1 );
-	LUA->PushString( "lanes_core" );
-	LUA->PushSpecial( GarrysMod::Lua::SPECIAL_GLOB );
-	LUA->GetField( -1, "lanes" );
+	LUA->PushString( "lanes.core" );
+
+	LUA->GetField( GarrysMod::Lua::INDEX_GLOBAL, "lanes" );
 	if( luaopen_lanes_core( state ) >= 1 )
 		LUA->SetField( -2, "core" );
 
@@ -23,6 +24,8 @@ GMOD_MODULE_OPEN( )
 
 GMOD_MODULE_CLOSE( )
 {
-	(void)state;
+	LUA->GetField( GarrysMod::Lua::INDEX_GLOBAL, "lanes" );
+	LUA->PushNil( );
+	LUA->SetField( -2, "core" );
 	return 0;
 }

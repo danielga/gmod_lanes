@@ -42,7 +42,7 @@ THE SOFTWARE.
 lanes = {}
 local lanes = lanes
 
-require("lanes_core")
+require("lanes.core")
 local core = lanes.core
 
 -- this function is available in the public interface until it is called, after which it disappears
