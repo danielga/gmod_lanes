@@ -31,3 +31,6 @@ CreateWorkspace({name = "lanes.core"})
 			["Header files/*"] = LANES_DIRECTORY .. "/*.h"
 		})
 		IncludeLuaShared()
+
+		filter("system:linux")
+			defines("_GNU_SOURCE")
