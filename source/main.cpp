@@ -16,7 +16,7 @@ GMOD_MODULE_OPEN( )
 	LUA->PushString( "lanes.core" );
 
 	LUA->GetField( GarrysMod::Lua::INDEX_GLOBAL, "lanes" );
-	if( luaopen_lanes_core( state ) >= 1 )
+	if( luaopen_lanes_core( LUA->GetState( ) ) >= 1 )
 		LUA->SetField( -2, "core" );
 
 	return 0;
