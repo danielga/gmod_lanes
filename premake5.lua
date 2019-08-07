@@ -5,13 +5,10 @@ newoption({
 })
 
 local gmcommon = _OPTIONS.gmcommon or os.getenv("GARRYSMOD_COMMON")
-if gmcommon == nil then
-	error("you didn't provide a path to your garrysmod_common (https://github.com/danielga/garrysmod_common) directory")
-end
+assert(gmcommon ~= nil, "you didn't provide a path to your garrysmod_common (https://github.com/danielga/garrysmod_common) directory")
+include(path.join(gmcommon, "generator.v2.lua"))
 
-include(gmcommon)
-
-local LANES_DIRECTORY = "../lanes/src"
+local LANES_DIRECTORY = "lanes/src"
 
 CreateWorkspace({name = "lanes.core"})
 	CreateProject({serverside = true})
@@ -26,7 +23,7 @@ CreateWorkspace({name = "lanes.core"})
 
 	project("lanes")
 		kind("StaticLib")
-		warnings("Off")
+		warnings("Default")
 		includedirs(LANES_DIRECTORY)
 		files({LANES_DIRECTORY .. "/*.c", LANES_DIRECTORY .. "/*.h"})
 		vpaths({
