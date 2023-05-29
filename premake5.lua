@@ -27,6 +27,7 @@ CreateWorkspace({name = "lanes.core"})
 		kind("StaticLib")
 		warnings("Default")
 		includedirs(LANES_DIRECTORY)
+		externalincludedirs(_GARRYSMOD_COMMON_DIRECTORY .. "/include")
 		files({path.join(LANES_DIRECTORY, "*.c"), path.join(LANES_DIRECTORY, "*.h")})
 		vpaths({
 			["Source files/*"] = path.join(LANES_DIRECTORY, "*.c"),
