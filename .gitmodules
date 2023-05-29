@@ -1,3 +1,3 @@
 [submodule "lanes"]
 	path = lanes
-	url = https://github.com/danielga/lanes.git
+	url = https://github.com/LuaLanes/lanes.git
