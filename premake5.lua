@@ -18,10 +18,16 @@ CreateWorkspace({name = "lanes.core"})
 		links("lanes")
 		IncludeLuaShared()
 
+		filter("system:linux")
+			links("pthread")
+
 	CreateProject({serverside = false})
 		includedirs(LANES_DIRECTORY)
 		links("lanes")
 		IncludeLuaShared()
+
+		filter("system:linux")
+			links("pthread")
 
 	project("lanes")
 		kind("StaticLib")
